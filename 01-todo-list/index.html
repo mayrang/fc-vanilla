@@ -287,20 +287,56 @@
 
       const addButton = document.querySelector("#input-field button");
       addButton.addEventListener("click", (e) => {
+        // 빈 값이거나 중복값이면 에러메시지를 보여주고 추가 x
+        const inputText = e.target.previousSibling.value;
+        console.log("input", inputText);
+        if (!validCheck(inputText)) {
+          return;
+        }
+
+        addItem(
+          registEvents(
+            createElement({
+              tagName: "li",
+
+              children: [
+                { tagName: "input", properties: { type: "checkbox" } },
+                { tagName: "span", properties: { innerText: e.target.previousSibling.value } },
+                { tagName: "button", properties: { innerText: "삭제" } },
+              ],
+            })
+          )
+        );
+
+        updateCounter();
+      });
+
+      function validCheck(inputText) {
+        if (!inputText) return false;
+        console.log("in", inputText);
+        inputText = inputText.trim();
+
+        if (inputText === "") {
+          alert("빈 값");
+          return false;
+        }
+        const itemContainer = document.querySelector("#item-list");
+        const found = Array.from(itemContainer.children).find((child) => child.children[1].innerText === inputText);
+        if (found) {
+          alert("중복");
+          return false;
+        }
+        return true;
+      }
+
+      // 아이템 생성
+      function addItem(item) {
         // 컨테이너를 가져오기
         const itemContainer = document.querySelector("#item-list");
+        itemContainer.appendChild(item);
+      }
 
-        // 아이템 생성
-        const item = createElement({
-          tagName: "li",
-          parent: itemContainer,
-          children: [
-            { tagName: "input", properties: { type: "checkbox" } },
-            { tagName: "span", properties: { innerText: e.target.previousSibling.value } },
-            { tagName: "button", properties: { innerText: "삭제" } },
-          ],
-        });
-
+      function registEvents(item) {
         const [checkbox, text, removeButton] = item.children;
 
         checkbox.addEventListener("change", (e) => {
@@ -308,25 +344,26 @@
             ? (text.style.textDecoration = "line-through")
             : text.style.removeProperty("text-decoration");
 
-          const totalCount = Array.from(itemContainer.children).filter((child) => child.children[0].checked).length;
-          const counter = document.querySelector("#counter");
-          counter.children[3].innerText = "" + totalCount;
+          updateCounter();
         });
-
-        // 카운터를 업데이트
-        const counter = document.querySelector("#counter");
-        counter.children[1].innerText = "" + itemContainer.children.length;
 
         // 삭제
         removeButton.addEventListener("click", () => {
           item.remove();
-          const counter = document.querySelector("#counter");
-          counter.children[1].innerText = "" + itemContainer.children.length;
-          const totalCount = Array.from(itemContainer.children).filter((child) => child.children[0].checked).length;
-
-          counter.children[3].innerText = "" + totalCount;
+          updateCounter();
         });
-      });
+
+        return item;
+      }
+
+      function updateCounter() {
+        const itemContainer = document.querySelector("#item-list");
+        const counter = document.querySelector("#counter");
+        counter.children[1].innerText = "" + itemContainer.children.length;
+        const totalCount = Array.from(itemContainer.children).filter((child) => child.children[0].checked).length;
+
+        counter.children[3].innerText = "" + totalCount;
+      }
     </script>
   </body>
 </html>
