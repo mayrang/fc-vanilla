@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- <div id="container">
+      <span>Span Text</span>
+    </div> -->
+    <script>
+      // wrapper
+      // - header
+      //   -title
+      //   - cunter
+      //     - 'Total'
+      //     - 0
+      //     - 'Complete'
+      //     - 0
+      // - input-field
+      //   -input
+      //   - button 'add'
+      // -  item-list-container
+      //   -ul
+      //     -li
+      //       -div
+      //         -input(checkbox)
+      //         -span
+      //         - button 'remove'
+      // const wrapper = document.createElement("div");
+      // const header = document.createElement("div");
+      // const inputField = document.createElement("div");
+      // const itemListContainer = document.createElement("div");
+      // wrapper.append(header, inputField, itemListContainer);
+      // document.body.appendChild(wrapper)
+
+      // 인라인 스타일
+      // app.style.background = '#000';
+      // app.style.setProperty('background', "#f00");
+      // app.style.cssText = `
+      //   background: #fff;
+      //   width: 100%;
+      //   margin: 100px auto;
+      //   border-radius: 6px;
+      //   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1)
+      // `;
+      // app.style.removeProperty("box-shadow");
+
+      // 스타일 시트
+      //   document.styleSheets[0].insertRule(`
+      //   #app{
+      //    background: #fff;
+      //    width: 100%;
+      //    margin: 100px auto;
+      //    border-radius: 6px;
+      //    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1)
+      // }`);
+
+      //   document.styleSheets[0].deleteRule(0);
+
+      // console.log(app.style.background); //인라인으로 설정했을 때 확인 가능
+      // console.log(getComputedStyle(app)); // 모든 스타일 확인 가능
+
+      const styleSheets = new CSSStyleSheet();
+      styleSheets.replace(`
+          {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        height: 100vh;
+        background: linear-gradient(
+          180deg,
+          #3ac6f3 0%,
+          rgba(200, 180, 180, 0.4) 40%,
+          rgba(255, 0, 0, 0.56) 100%
+        );
+        overflow: hidden;
+      }
+
+      #app {
+        background: #fff;
+        max-width: 500px;
+        width: 100%;
+        margin: 100px auto;
+        padding: 20px;
+        border-radius: 6px;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      #header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      #counter span {
+        margin-right: 0.5rem;
+      }
+
+      #input-field {
+        margin: 20px 0;
+        width: 100%;
+        display: flex;
+        height: 2.5rem;
+      }
+
+      #input-field input {
+        width: 85%;
+        height: 100%;
+        border-radius: 3px;
+        border: 1px solid #ccc;
+        font-size: 0.8rem;
+        padding-left: 15px;
+        outline: none;
+      }
+
+      #input-field input:focus {
+        border-color: #ff0051;
+      }
+
+      #input-field button {
+        width: 50px;
+        height: 100%;
+        border: none;
+        color: #fff;
+        margin-left: 5px;
+        font-size: 21px;
+        outline: none;
+        background: #3ac6f3;
+        border-radius: 3px;
+      }
+
+      #input-field button:hover {
+        background: #ff0051;
+      }
+
+      #item-list-container {
+        max-height: 250px;
+        overflow: scroll;
+      }
+
+      #item-list-container li {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        list-style: none;
+        height: 3rem;
+        line-height: 3rem;
+        margin-bottom: 0.5rem;
+        overflow: hidden;
+        border-radius: 5px;
+      }
+
+      #item-list-container div {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
+      #item-list-container input {
+        margin: 1rem;
+        transition-duration: 0.5s;
+        opacity: 1;
+      }
+      #item-list-container button {
+        width: 3rem;
+        margin: 0.3rem 1rem;
+        width: 3rem;
+        border: none;
+        color: #fff;
+        margin-left: 5px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        outline: none;
+        background: #f97;
+        border-radius: 3px;
+        transition-duration: 0.5s;
+        opacity: 1;
+      }
+      #item-list-container button:hover {
+        background-color: #ddd;
+      }
+      #item-list-container span {
+        width: 100%;
+        text-align: 'left';
+      }
+      `);
+      // document.head.appendChild(styleSheets); // 노드가 아니라 이러면 안됨
+      document.adoptedStyleSheets = [styleSheets];
+
+      const app = createElement({
+        tagName: "div",
+        properties: { id: "app" },
+        parent: document.body,
+      });
+
+      const header = createElement({
+        tagName: "div",
+        properties: { id: "header" },
+        parent: app,
+        children: [
+          {
+            tagName: "h1",
+            properties: { innerText: "Todo List" },
+          },
+          {
+            tagName: "div",
+            properties: { id: "counter" },
+            children: [
+              {
+                tagName: "span",
+                properties: { innerText: "Total" },
+              },
+              {
+                tagName: "span",
+                properties: { innerText: "0" },
+              },
+              {
+                tagName: "span",
+                properties: { innerText: "Completed" },
+              },
+              {
+                tagName: "span",
+                properties: { innerText: "0" },
+              },
+            ],
+          },
+        ],
+      });
+
+      const inputField = createElement({
+        tagName: "div",
+        properties: { id: "input-field" },
+        parent: app,
+        children: [
+          {
+            tagName: "input",
+            properties: { placeholder: "할일을 입력해주세요" },
+          },
+          {
+            tagName: "button",
+            properties: { innerText: "Add" },
+          },
+        ],
+      });
+
+      const itemListContainer = createElement({
+        tagName: "div",
+        properties: { id: "item-list-container" },
+        parent: app,
+        children: [
+          {
+            tagName: "ul",
+            properties: { id: "item-list" },
+          },
+        ],
+      });
+
+      function createElement({ tagName, properties, parent, children, count = 1 }) {
+        const create = () => {
+          const element = document.createElement(tagName);
+          Object.assign(element, properties);
+          parent?.appendChild(element);
+          children?.map((child) => {
+            child.parent = element;
+            createElement(child);
+          });
+          return element;
+        };
+
+        if (count > 1) {
+          const result = [];
+          for (i = 0; i < count; i++) {
+            result.push(create());
+          }
+          return result;
+        } else {
+          return create();
+        }
+      }
+
+      // 1. 인풋에 할일을 입력하고 추가버튼을 클릭하면 아이템이 리스트에 추가되고 토탈 카운트 업뎃
+      // 2. 할일의 체크박스를 클릭하면 취소선이 표시되고 완료 카운터가 업데이트
+      // 3. 삭제 버튼을 클릭하면 아이템이 삭제되고 카운터 업데이트
+
+      const addButton = document.querySelector("#input-field button");
+      addButton.addEventListener("click", (e) => {
+        // 컨테이너를 가져오기
+        const itemContainer = document.querySelector("#item-list");
+
+        // 아이템 생성
+        const item = createElement({
+          tagName: "li",
+          parent: itemContainer,
+          children: [
+            { tagName: "input", properties: { type: "checkbox" } },
+            { tagName: "span", properties: { innerText: e.target.previousSibling.value } },
+            { tagName: "button", properties: { innerText: "삭제" } },
+          ],
+        });
+
+        const [checkbox, text, removeButton] = item.children;
+
+        checkbox.addEventListener("change", (e) => {
+          e.target.checked
+            ? (text.style.textDecoration = "line-through")
+            : text.style.removeProperty("text-decoration");
+
+          const totalCount = Array.from(itemContainer.children).filter((child) => child.children[0].checked).length;
+          const counter = document.querySelector("#counter");
+          counter.children[3].innerText = "" + totalCount;
+        });
+
+        // 카운터를 업데이트
+        const counter = document.querySelector("#counter");
+        counter.children[1].innerText = "" + itemContainer.children.length;
+
+        // 삭제
+        removeButton.addEventListener("click", () => {
+          item.remove();
+          const counter = document.querySelector("#counter");
+          counter.children[1].innerText = "" + itemContainer.children.length;
+          const totalCount = Array.from(itemContainer.children).filter((child) => child.children[0].checked).length;
+
+          counter.children[3].innerText = "" + totalCount;
+        });
+      });
+    </script>
+  </body>
+</html>
